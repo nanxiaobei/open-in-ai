@@ -1,15 +1,16 @@
 import { defineManifest } from '@crxjs/vite-plugin';
-import pkg from './package.json';
+import { version } from './package.json';
 import { BRAND_NAME } from './src/config';
 
 export default defineManifest({
   manifest_version: 3,
-  name: `${BRAND_NAME} - One Click to Rule Them All!`,
+  name: `${BRAND_NAME}`,
   short_name: BRAND_NAME,
-  version: pkg.version,
-  description: '',
+  version,
+  description:
+    'Select text and click to search with your AI services, one click to rule them all!',
   icons: {
-    48: 'public/logo.png',
+    48: 'icon.png',
   },
   action: {
     default_title: BRAND_NAME,
