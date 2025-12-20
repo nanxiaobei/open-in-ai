@@ -1,0 +1,89 @@
+@import 'tailwindcss';
+
+html {
+  @apply overscroll-none;
+}
+
+body {
+  @apply text-[13px] leading-[1.4] font-medium text-black antialiased;
+
+  @apply before:fixed before:inset-0 before:-z-20 before:rounded-[16px] before:[background:radial-gradient(#ccc_1px,#eeeee7_0)_0px_0px/24px_24px];
+
+  @apply after:glass after:fixed after:inset-[3px] after:-z-20 after:rounded-[13px] after:opacity-50;
+
+  @apply [--px:25px] [--py:20px] [--slot-bg:#333] [--slot-r-in:8px] [--slot-r-out:2px] [--slot-w:1.5px];
+}
+
+#root {
+  @apply absolute inset-[3px_3px_10px] overflow-auto;
+}
+
+input {
+  @apply h-full w-full outline-none;
+}
+
+h2 {
+  @apply text-black/50;
+}
+
+@utility section {
+  @apply relative flex flex-col rounded-(--slot-r-out) p-[calc(var(--slot-w)/2)] shadow-sm shadow-black/10;
+
+  @apply before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:bg-(--slot-bg);
+
+  @apply [&_.box]:before:hidden [&_.box]:after:inset-[calc(var(--slot-w)/2)]!;
+}
+
+@utility box {
+  @apply relative flex min-h-[36px] items-center gap-[6px] px-[16px] text-black/60 select-none;
+
+  @apply [--bg:#dfd0d7];
+  @apply [--r:1];
+
+  @apply [--normal:6px_6px_4px_rgb(0_0_0/calc(var(--r)*0.15)),inset_1px_1px_1px_rgb(255_255_255/calc(var(--r)*0.6)),inset_0_0_12px_rgb(255_255_255/calc(var(--r)*0.6)),inset_-1px_-1px_1px_rgb(0_0_0/calc(var(--r)*0.3)),inset_-1px_-1px_12px_rgb(0_0_0/calc(var(--r)*0.15))];
+
+  @apply [--active:inset_1px_1px_2px_rgb(0_0_0/calc(var(--r)*0.4)),inset_0_0_24px_rgb(0_0_0/calc(var(--r)*0.2))];
+
+  @apply before:absolute before:inset-0 before:-z-10 before:rounded-(--slot-r-out) before:bg-(--slot-bg) before:shadow-xs before:shadow-black/30 before:duration-100 before:ease-in;
+
+  @apply after:absolute after:inset-(--slot-w) after:-z-10 after:rounded-(--slot-r-in) after:bg-(--bg) after:shadow-(--normal) after:duration-100 after:ease-in;
+
+  @apply [&:not(.input,.screen,.disable)]:cursor-pointer;
+
+  @apply [&>div[class^=img]]:h-[12px] [&>div[class^=img]]:w-[12px] [&>div[class^=img]]:opacity-60;
+
+  /* active */
+  @apply [&:not(.input,.screen,.disable,.view):active]:pt-[0.5px] [&:not(.input,.screen,.disable,.view):active]:[--r:1]! [&:not(.input,.screen,.disable,.view):active]:after:shadow-(--active);
+
+  @apply [&:not(.input,.screen,.disable,.view).press]:pt-[0.5px] [&:not(.input,.screen,.disable,.view).press]:[--r:1]! [&:not(.input,.screen,.disable,.view).press]:after:shadow-(--active);
+
+  /* primary */
+  @apply [&.primary]:text-white/80 [&.primary]:[--bg:#ea4b0e] [&.primary]:[--r:0.7];
+
+  /* secondary */
+  @apply [&.secondary]:[--bg:var(--color-orange-200)];
+
+  /* tertiary */
+  @apply [&.tertiary]:[--bg:#ced0d7];
+
+  /* input */
+  @apply [&.input]:py-[6px] [&.input]:text-black/90 [&.input]:[--bg:var(--color-lime-200)] [&.input]:after:[box-shadow:inset_0_1px_3px_rgb(0_0_0/0.25)];
+
+  /* screen */
+  @apply [&.screen]:[--bg:var(--color-lime-100)] [&.screen]:[--r:0.7] [&.screen.flat]:after:[box-shadow:inset_0_0_8px_rgb(0_0_0/0.25)];
+
+  /* disable */
+  @apply [&.disable]:pointer-events-none [&.disable]:pt-[0.5px] [&.disable]:grayscale-100 [&.disable]:[--r:1]! [&.disable]:after:shadow-(--active) [&.disable>*]:opacity-30;
+}
+
+@utility glass {
+  backdrop-filter: blur(8px);
+  box-shadow:
+    inset -1px -1px 1.5px rgb(255 255 255 / 0.9),
+    inset 1px 1px 1.5px rgb(0 0 0 / 0.05),
+    -1px -1px 1.5px rgb(255 255 255 / 0.3),
+    -0.5px -0.5px 0 rgb(0 0 0 / 0.15),
+    0.5px 0.5px 0 rgb(0 0 0 / 0.05),
+    0 1px 2px rgb(0 0 0 / 0.2);
+  background: rgb(240 240 240 / 0.8);
+}
