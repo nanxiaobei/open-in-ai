@@ -27,6 +27,12 @@
       translate 0.03s;
   }
 
+  &.error {
+    .img {
+      cursor: not-allowed;
+    }
+  }
+
   &.large {
     --scale-open: 1.2;
   }

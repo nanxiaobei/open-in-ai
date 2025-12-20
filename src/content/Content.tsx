@@ -135,6 +135,7 @@ function Content() {
       ref={popEl}
       className={cn(
         'pop-list glass',
+        isError ? 'error' : '',
         popLarge ? 'large' : '',
         popDark ? 'dark' : '',
         popText ? 'text' : '',
@@ -171,6 +172,7 @@ function Content() {
             layout="position"
             value={type}
             title={popText ? undefined : text}
+            dragListener={isAuthed}
             {...(isAuthed
               ? {
                   onDragStart: () => {

@@ -1,6 +1,6 @@
 import { Img } from '@/components/Img';
 import { AirSwitch } from '@/sidepanel/AirSwitch';
-import { ReorderItem } from '@/sidepanel/ReorderItem';
+import { MoveItem } from '@/sidepanel/MoveItem';
 import { nameMap, useStore } from '@/store';
 import { Reorder } from 'motion/react';
 
@@ -37,7 +37,7 @@ export const Settings = () => {
           const text = nameMap[type];
 
           return (
-            <ReorderItem key={type} value={type}>
+            <MoveItem key={type} value={type} disabled={!isAuthed}>
               <AirSwitch
                 className="pl-(--drag-w)"
                 checked={show}
@@ -56,7 +56,7 @@ export const Settings = () => {
                   </div>
                 }
               />
-            </ReorderItem>
+            </MoveItem>
           );
         })}
       </Reorder.Group>
