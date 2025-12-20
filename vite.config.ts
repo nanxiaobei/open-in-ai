@@ -20,7 +20,7 @@ export default defineConfig({
       includePaths: ['/src/'],
       excludePaths: ['/sidepanel/'],
     }),
-    zip({ outDir: 'release', outFileName: `${name}.zip` }),
+    zip({ outDir: './', outFileName: `${name}.zip` }),
   ],
   server: {
     cors: {
