@@ -8,7 +8,7 @@ export default defineManifest({
   short_name: BRAND_NAME,
   version,
   description:
-    'Select text and click to search with your AI services, one click to rule them all!',
+    'Select text and click to search with your AI, one click to rule them all.',
   icons: {
     48: 'icon.png',
   },

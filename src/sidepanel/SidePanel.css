@@ -37,7 +37,7 @@ h2 {
 @utility box {
   @apply relative flex min-h-[38px] items-center gap-[6px] px-[16px] text-black/60 select-none;
 
-  @apply [--bg:#dddbdc];
+  @apply [--bg:#d9dbdc];
   @apply [--r:1];
 
   @apply [--normal:6px_6px_4px_rgb(0_0_0/calc(var(--r)*0.15)),inset_1px_1px_1px_rgb(255_255_255/calc(var(--r)*0.6)),inset_0_0_12px_rgb(255_255_255/calc(var(--r)*0.6)),inset_-1px_-1px_1px_rgb(0_0_0/calc(var(--r)*0.3)),inset_-1px_-1px_12px_rgb(0_0_0/calc(var(--r)*0.15))];
