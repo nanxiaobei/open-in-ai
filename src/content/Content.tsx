@@ -23,31 +23,22 @@ function Content() {
   const isError = Boolean(authData && authData.error);
 
   const popEl = useRef<HTMLDivElement | null>(null);
-  const startPos = useRef<{ x: number; y: number } | null>(null);
-  const isPopClose = useRef(false);
-
   const selectionRef = useRef<Selection | null>(null);
+  const rangeRef = useRef<Range | null>(null);
   const textRef = useRef('');
   const isOpen = useRef(false);
+  const isManualClosed = useRef(false);
 
   const onClose = () => {
-    startPos.current = null;
+    isOpen.current = false;
     Object.assign(popEl.current!.style, {
       pointerEvents: 'none',
       opacity: 0,
       scale: 'var(--scale-close)',
     });
     setTimeout(() => {
-      popEl.current!.dataset.open = '';
+      popEl.current!.dataset.view = '';
     }, 10);
-  };
-
-  const onPopClose = () => {
-    isPopClose.current = true;
-    selectionRef.current?.removeAllRanges();
-    setTimeout(() => {
-      onClose(); // for better ux
-    }, 50);
   };
 
   useEffect(() => {
@@ -60,8 +51,8 @@ function Content() {
       }
 
       timerId = window.setTimeout(() => {
-        if (isPopClose.current) {
-          isPopClose.current = false;
+        if (isManualClosed.current) {
+          isManualClosed.current = false;
           return;
         }
 
@@ -73,26 +64,22 @@ function Content() {
           if (textRef.current) {
             if (!selectionRef.current.isCollapsed) {
               isOpen.current = true;
-              const rect = selectionRef.current
-                .getRangeAt(0)
-                .getBoundingClientRect();
+              rangeRef.current = selectionRef.current.getRangeAt(0);
+              const rect = rangeRef.current.getBoundingClientRect();
 
-              startPos.current = { x: window.scrollX, y: window.scrollY };
               Object.assign(popEl.current!.style, {
                 pointerEvents: 'auto',
                 opacity: 1,
                 scale: 'var(--scale-open)',
                 left: `${rect.left + rect.width / 2}px`,
                 top: `${rect.bottom + 8}px`,
-                translate: '-50% 0',
               });
               setTimeout(() => {
-                popEl.current!.dataset.open = 'true';
+                popEl.current!.dataset.view = 'open';
               }, 10);
             }
           } else {
             if (isOpen.current) {
-              isOpen.current = false;
               onClose();
             }
           }
@@ -102,27 +89,32 @@ function Content() {
 
     const onMouseUp = () => onSelect(200);
     const onKeyUp = () => onSelect(10);
-    const onScroll = () => {
-      if (!startPos.current) return;
-      if (rafId) cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(() => {
-        const dx = startPos.current!.x - window.scrollX;
-        const dy = startPos.current!.y - window.scrollY;
-        popEl.current!.style.translate = `calc(${dx}px - 50%) ${dy}px`;
-        rafId = null;
-      });
+    const onPosition = () => {
+      if (isOpen.current) {
+        if (rafId) cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(() => {
+          const rect = rangeRef.current!.getBoundingClientRect();
+          Object.assign(popEl.current!.style, {
+            left: `${rect.left + rect.width / 2}px`,
+            top: `${rect.bottom + 8}px`,
+          });
+          rafId = null;
+        });
+      }
     };
     const onPopMouseDown = (event: MouseEvent) => event.preventDefault();
 
     document.addEventListener('mouseup', onMouseUp);
     document.addEventListener('keyup', onKeyUp);
-    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('scroll', onPosition, { passive: true });
+    window.addEventListener('resize', onPosition);
     popEl.current?.addEventListener('mousedown', onPopMouseDown);
 
     return () => {
       document.removeEventListener('mouseup', onMouseUp);
       document.removeEventListener('keyup', onKeyUp);
-      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('scroll', onPosition);
+      window.removeEventListener('resize', onPosition);
       popEl.current?.removeEventListener('mousedown', onPopMouseDown);
     };
   }, []);
@@ -195,11 +187,15 @@ function Content() {
                 }
 
                 if (isAuthed && !isDrag.current) {
-                  onPopClose();
+                  isManualClosed.current = true;
+                  selectionRef.current?.removeAllRanges();
 
                   if (type === 'copy') {
                     navigator.clipboard.writeText(textRef.current);
+                    setTimeout(() => onClose(), 50); // for better ux
                   } else {
+                    popEl.current!.dataset.view = 'jump';
+                    onClose();
                     let url = getUrl(textRef.current);
                     if (!url) {
                       const str = new URLSearchParams({
@@ -207,7 +203,9 @@ function Content() {
                       }).toString();
                       url = `${urlMap[type]}${str.slice(2)}`;
                     }
-                    emit('bg', 'createTab', url);
+                    setTimeout(() => {
+                      emit('bg', 'createTab', url);
+                    }, 10);
                   }
                 }
               }}

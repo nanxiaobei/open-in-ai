@@ -84,8 +84,8 @@ export const Footer = () => {
                   className="box secondary"
                   href={
                     process.env.NODE_ENV === 'development'
-                      ? 'https://21beats.lemonsqueezy.com/buy/22380396-49fe-4f06-83ca-2786a02df3d7'
-                      : 'https://21beats.lemonsqueezy.com/buy/22380396-49fe-4f06-83ca-2786a02df3d7' // todo
+                      ? 'https://21beats.lemonsqueezy.com/checkout/buy/22380396-49fe-4f06-83ca-2786a02df3d7'
+                      : 'https://21beats.lemonsqueezy.com/checkout/buy/6d4d7d4a-8c7e-4b5c-adce-71ba3bb9cffa'
                   }
                   target="_blank"
                   rel="noopener noreferrer"

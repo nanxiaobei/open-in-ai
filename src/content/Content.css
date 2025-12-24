@@ -9,7 +9,6 @@
   z-index: 99999999999;
   transition:
     opacity 0.1s,
-    width 0.1s,
     scale 0.06s;
   border-radius: 9999px;
   padding-inline: 4px;
@@ -17,14 +16,20 @@
   font-weight: 500;
   white-space: nowrap;
   -webkit-font-smoothing: antialiased;
+  translate: -50% 0;
   pointer-events: none;
   font-family: sans-serif;
 
-  &[data-open='true'] {
+  &[data-view='open'] {
     transition:
-      all 0.1s,
+      opacity 0.1s,
       scale 0.06s,
-      translate 0.03s;
+      left 0.02s,
+      top 0.02s;
+  }
+
+  &[data-view='jump'] {
+    transition: 0.01s;
   }
 
   &.error {
