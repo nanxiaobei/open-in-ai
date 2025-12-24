@@ -60,17 +60,3 @@ chrome.runtime.onInstalled.addListener((details) => {
 
 // 监听 sidePanel
 chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true });
-
-// 监听 快捷键
-chrome.commands.onCommand.addListener((command, tab) => {
-  if (!tab) return;
-  if (command === 'toggle-tabs') {
-    return emit('tab', 'togglePop', 'tabs');
-  }
-  if (command === 'toggle-bookmarks') {
-    return emit('tab', 'togglePop', 'bookmarks');
-  }
-  if (command === 'toggle-add') {
-    return emit('tab', 'togglePop', 'add');
-  }
-});

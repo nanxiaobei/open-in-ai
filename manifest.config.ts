@@ -16,7 +16,6 @@ export default defineManifest({
     default_title: BRAND_NAME,
   },
   permissions: ['sidePanel', 'storage', 'activeTab', 'tabs'],
-  host_permissions: ['<all_urls>'],
   content_scripts: [
     {
       js: ['src/content/main.tsx'],
@@ -29,14 +28,5 @@ export default defineManifest({
   background: {
     service_worker: 'src/background.ts',
     type: 'module',
-  },
-  commands: {
-    'toggle-side': {
-      suggested_key: {
-        default: 'Ctrl+E',
-        mac: 'Command+E',
-      },
-      description: 'Toggle Side',
-    },
   },
 });
