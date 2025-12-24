@@ -4,7 +4,6 @@ import { BRAND_NAME, DATE_FORMAT, TRIAL_ENDED } from '@/config.ts';
 import { useActivate } from '@/hooks/useActivate.ts';
 import { useStore } from '@/store.ts';
 import { cn } from '@/utils/cn.ts';
-import { emit } from '@/utils/event.ts';
 import dayjs from 'dayjs';
 
 export const Footer = () => {
@@ -110,13 +109,6 @@ export const Footer = () => {
             'mt-[16px] flex items-center gap-[12px] text-[12px] text-(color:--brand-bg) [--brand-bg:#ccc]',
             'after:h-[16px] after:flex-1 after:[background:radial-gradient(var(--brand-bg)_1px,transparent_0)_3px_1px/4px_4px]',
           )}
-          {...(process.env.NODE_ENV === 'development'
-            ? {
-                onClick: () => {
-                  emit('bg', 'createTab', 'chrome://extensions/');
-                },
-              }
-            : undefined)}
         >
           {BRAND_NAME} ™
         </div>

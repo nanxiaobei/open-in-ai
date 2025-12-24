@@ -1,7 +1,5 @@
 export const BRAND_NAME = 'Open in AI';
 
-export const SHORTCUTS_URL = 'chrome://extensions/shortcuts';
-
 // https://day.js.org/docs/en/display/format
 export const DATE_FORMAT = 'MMM D, YYYY, h:mm A';
 
